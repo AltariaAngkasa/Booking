@@ -34,7 +34,7 @@ class OtpPage extends StatelessWidget {
           children: [
             const SizedBox(height: 40),
             Text(
-              'Masukkan kode OTP 4 digit yang dikirim ke:\n\$phoneNumber',
+              'Masukkan kode OTP 4 digit yang dikirim ke:\n$phoneNumber',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 18,

@@ -1,3 +1,4 @@
+import 'package:aplikasi/screens/mainScreen/choose_seat_page.dart';
 import 'package:flutter/material.dart';
 
 class EventDetailPage extends StatelessWidget {
@@ -130,6 +131,12 @@ class EventDetailPage extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             //Buatkan untuk Reservasi ya
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ChooseSeatPage(),
+                              ),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.purple,

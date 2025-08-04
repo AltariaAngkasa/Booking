@@ -1,5 +1,7 @@
+import 'package:aplikasi/screens/mainScreen/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+
 
 class OtpPage extends StatelessWidget {
   final String phoneNumber;
@@ -35,10 +37,7 @@ class OtpPage extends StatelessWidget {
             const SizedBox(height: 40),
             Text(
               'Masukkan kode OTP 4 digit yang dikirim ke:\n$phoneNumber',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              ),
+              style: const TextStyle(color: Colors.white, fontSize: 18),
             ),
             const SizedBox(height: 30),
             Center(
@@ -58,6 +57,10 @@ class OtpPage extends StatelessWidget {
                 onPressed: () {
                   // TODO: Panggil fungsi verifikasi
                   print('Verify OTP tapped');
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF3D5AFE),

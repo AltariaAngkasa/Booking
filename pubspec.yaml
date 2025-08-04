@@ -64,6 +64,8 @@ flutter:
 
   assets:
     - assets/pngegg.png
+    - assets/Profile.jpg
+    - assets/sample.jpg
 
 
   # To add assets to your application, add an assets section, like this:

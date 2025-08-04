@@ -1,3 +1,4 @@
+import 'package:aplikasi/screens/mainScreen/event_detail_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -143,13 +144,29 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildFullCard(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: Image.asset(
-        'assets/sample.jpg',
-        width: MediaQuery.of(context).size.width,
-        height: 180,
-        fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => EventDetailPage(
+              title: 'Event Contoh 1',
+              date: '17 Agustus 2025',
+              artist: 'Justin Beiber',
+              time: '20.00',
+              imagePath: 'assets/sample.jpg',
+            ),
+          ),
+        );
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Image.asset(
+          'assets/sample.jpg',
+          width: MediaQuery.of(context).size.width,
+          height: 180,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

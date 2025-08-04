@@ -119,7 +119,7 @@ class HomePage extends StatelessWidget {
                   3,
                   (index) => Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child: _buildCard(),
+                    child: _buildFullCard(context),
                   ),
                 ),
               ),
@@ -132,11 +132,23 @@ class HomePage extends StatelessWidget {
 
   Widget _buildCard() {
     return ClipRRect(
-      borderRadius: BorderRadiusGeometry.circular(16),
+      borderRadius: BorderRadius.circular(16),
       child: Image.asset(
         'assets/sample.jpg', //Gambar untuk placeholder
         width: 220,
         height: 140,
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+
+  Widget _buildFullCard(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Image.asset(
+        'assets/sample.jpg',
+        width: MediaQuery.of(context).size.width,
+        height: 180,
         fit: BoxFit.cover,
       ),
     );

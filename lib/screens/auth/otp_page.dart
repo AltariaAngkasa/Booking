@@ -1,3 +1,4 @@
+import 'package:aplikasi/screens/auth/loginTest.dart';
 import 'package:aplikasi/screens/mainScreen/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
@@ -59,7 +60,7 @@ class OtpPage extends StatelessWidget {
                   print('Verify OTP tapped');
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
+                    MaterialPageRoute(builder: (context) => const Logintest()),
                   );
                 },
                 style: ElevatedButton.styleFrom(

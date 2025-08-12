@@ -1,8 +1,14 @@
 import 'package:aplikasi/screens/auth/registration_page.dart';
+import 'package:aplikasi/screens/mainScreen/homepage.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future<void> main() async {
+  // Pastikan dotenv di-load sebelum app jalan
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
@@ -14,9 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Login UI',
-      // Mengatur tema dasar aplikasi menjadi gelap
       theme: ThemeData.dark().copyWith(
-        // PERUBAHAN DI SINI: Mengganti warna background menjadi hitam
         scaffoldBackgroundColor: Colors.black,
       ),
       home: const LoginPage(),
@@ -24,13 +28,81 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool isLoading = false;
+
+  // Ambil API dari .env
+  final String apiUrl = dotenv.env['API_URL'] ?? '';
+  final String apiKey = dotenv.env['API_KEY'] ?? '';
+
+  Future<void> _login() async {
+     Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => const HomePage()),
+  );
+    // if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
+    //   _showError("Username dan Password tidak boleh kosong");
+    //   return;
+    // }
+
+    // setState(() {
+    //   isLoading = true;
+    // });
+
+    // try {
+    //   final response = await http.post(
+    //     Uri.parse(apiUrl),
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'x-api-key': apiKey,
+    //     },
+    //     body: jsonEncode({
+    //       'username': _usernameController.text,
+    //       'password': _passwordController.text,
+    //     }),
+    //   );
+
+    //   final data = jsonDecode(response.body);
+
+    //   if (response.statusCode == 200) {
+    //     if (data['success'] == true) {
+    //       Navigator.pushReplacement(
+    //         context,
+    //         MaterialPageRoute(builder: (context) => const HomePage()),
+    //       );
+    //     } else {
+    //       _showError(data['message'] ?? 'Login gagal');
+    //     }
+    //   } else {
+    //     _showError('Gagal terhubung ke server (${response.statusCode})');
+    //   }
+    // } catch (e) {
+    //   _showError('Terjadi kesalahan: $e');
+    // }
+
+    // setState(() {
+    //   isLoading = false;
+    // });
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // AppBar untuk menampilkan tulisan "Logo"
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -42,14 +114,12 @@ class LoginPage extends StatelessWidget {
           ),
         ),
       ),
-      // Menggunakan SingleChildScrollView agar tampilan bisa di-scroll jika tidak muat di layar kecil
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Judul Utama
               const Text(
                 'Selamat Datang\nKembali!',
                 style: TextStyle(
@@ -60,9 +130,8 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 50),
-
-              // Input field untuk Username
               TextFormField(
+                controller: _usernameController,
                 decoration: InputDecoration(
                   labelText: 'Username',
                   labelStyle: const TextStyle(color: Colors.white70),
@@ -78,10 +147,9 @@ class LoginPage extends StatelessWidget {
                 style: const TextStyle(color: Colors.white),
               ),
               const SizedBox(height: 20),
-
-              // Input field untuk Password
               TextFormField(
-                obscureText: true, // Menyembunyikan teks password
+                controller: _passwordController,
+                obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Password',
                   labelStyle: const TextStyle(color: Colors.white70),
@@ -97,13 +165,10 @@ class LoginPage extends StatelessWidget {
                 style: const TextStyle(color: Colors.white),
               ),
               const SizedBox(height: 12),
-
-              // Teks "Forgot password?"
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    // TODO: Tambahkan logika untuk lupa password
                     print('Forgot password tapped');
                   },
                   child: const Text(
@@ -113,13 +178,8 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-
-              // Tombol Login Utama
               ElevatedButton(
-                onPressed: () {
-                  // TODO: Tambahkan logika untuk proses login
-                  print('Login button tapped');
-                },
+                onPressed: isLoading ? null : _login,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF3D5AFE),
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -127,19 +187,18 @@ class LoginPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
-                child: const Text(
-                  'Login',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                child: isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text(
+                        'Login',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
               ),
               const SizedBox(height: 40),
-
-              // Teks pemisah "or Login with"
-              // Teks untuk navigasi ke halaman pendaftaran
               Center(
                 child: RichText(
                   text: TextSpan(
@@ -152,14 +211,15 @@ class LoginPage extends StatelessWidget {
                           color: Color(0xFF3D5AFE),
                           fontWeight: FontWeight.bold,
                         ),
-                        // Membuat teks bisa diklik
                         recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const RegistrationPage()),
-                          );
-                        },
+                          ..onTap = () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const RegistrationPage()),
+                            );
+                          },
                       ),
                     ],
                   ),
@@ -172,3 +232,19 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
+
+// class HomePage extends StatelessWidget {
+//   const HomePage({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Center(
+//         child: Text(
+//           'Selamat datang di Homepage!',
+//           style: TextStyle(fontSize: 20),
+//         ),
+//       ),
+//     );
+//   }
+//}

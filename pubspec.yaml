@@ -36,6 +36,7 @@ dependencies:
   pinput: ^5.0.1
   provider: ^6.1.2
   http: ^1.2.1
+  flutter_dotenv: ^5.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -67,6 +68,7 @@ flutter:
     - assets/pngegg.png
     - assets/Profile.jpg
     - assets/sample.jpg
+    - .env
 
 
   # To add assets to your application, add an assets section, like this:

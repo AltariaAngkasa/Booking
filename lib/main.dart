@@ -25,15 +25,21 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:aplikasi/screens/auth/otp_page.dart';  // sesuaikan path import
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:aplikasi/screens/auth/otp_page.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Load file .env
+  await dotenv.load(fileName: ".env");
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
- 
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,9 +48,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.black,
       ),
-      // Ubah home menjadi OtpPage untuk testing:
       home: const OtpPage(
-        phoneNumber: '08123456789',  // contoh nomor
+        phoneNumber: '08123456789',
       ),
     );
   }

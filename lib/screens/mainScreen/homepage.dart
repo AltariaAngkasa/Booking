@@ -1,4 +1,5 @@
 import 'package:aplikasi/screens/mainScreen/event_detail_page.dart';
+import 'package:aplikasi/screens/mainScreen/transaction_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -12,18 +13,32 @@ class HomePage extends StatelessWidget {
         0xFF1C1C1E,
       ), //Warna Background bisa diubah kalau jelek
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black,
-        selectedItemColor: Colors.purple,
-        unselectedItemColor: Colors.white,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.confirmation_num),
-            label: 'Transaction',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-      ),
+  currentIndex: 1, // Home index
+  backgroundColor: Colors.black,
+  selectedItemColor: Colors.purple,
+  unselectedItemColor: Colors.white,
+  onTap: (index) {
+    if (index == 0) {
+      // Transaction
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const TransactionPage()),
+      );
+    } else if (index == 2) {
+      // Profile (kalau nanti ada)
+      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const ProfilePage()));
+    }
+  },
+  items: const [
+    BottomNavigationBarItem(
+      icon: Icon(Icons.confirmation_num),
+      label: 'Transaction',
+    ),
+    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+    BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+  ],
+),
+
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

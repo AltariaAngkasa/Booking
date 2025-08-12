@@ -49,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
     context,
     MaterialPageRoute(builder: (context) => const HomePage()),
   );
+  //API Dimatikan Sementara
     // if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
     //   _showError("Username dan Password tidak boleh kosong");
     //   return;

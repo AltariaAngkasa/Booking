@@ -58,6 +58,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     context,
     MaterialPageRoute(builder: (context) => const LoginPage()),
   );
+  //API Dimatikan Sementara
     // if (_passwordController.text != _confirmPasswordController.text) {
     //   _showError("Password dan konfirmasi tidak sama");
     //   return;

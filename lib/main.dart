@@ -10,8 +10,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'features/home/views/home_page.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:aplikasi/screens/auth/otp_page.dart';
+
 Future<void> main() async {
-  // Load .env sebelum runApp
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Load file .env
   await dotenv.load(fileName: ".env");
 
   runApp(const MyApp());
@@ -22,28 +28,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Ambil base URL dari .env
-    final baseUrl = dotenv.env['API_BASE_URL'] ?? '';
-    final apiKey = dotenv.env['APP_API_KEY'] ?? '';
-
-    // Buat repository dengan baseUrl
-    final authRepository = AuthRepository(baseUrl:baseUrl, apiKey: apiKey);
-    final homeRepository = HomeRepository();
-
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => AuthBloc(authRepository),
-        ),
-        BlocProvider(
-          create: (context) => HomeBloc(homeRepository)..add(LoadHomeData()),
-        ),
-      ],
-      child: MaterialApp(
-        theme: buildAppTheme(),
-        title: 'BLoC Auth',
-        debugShowCheckedModeBanner: false,
-        home: const HomePage(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'OTP Test',
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: Colors.black,
+      ),
+      home: const OtpPage(
+        phoneNumber: '08123456789',
       ),
     );
   }
